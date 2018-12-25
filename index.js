@@ -4,7 +4,7 @@ const keys = require("./config/keys");
 // just config - doesn't export anything; need to consider order
 require("./models/User");
 require("./services/passport");
-
+// connect to MongoDB instance
 mongoose.connect(keys.mongoURI);
 
 const app = express();

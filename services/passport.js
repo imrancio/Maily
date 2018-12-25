@@ -3,6 +3,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const mongoose = require("mongoose");
 const keys = require("../config/keys");
 
+// access data from mongoose users model
 const User = mongoose.model("users");
 
 passport.use(
@@ -15,7 +16,14 @@ passport.use(
     },
     // callback called when google returns user back to oauth flow
     (accessToken, refreshToken, profile, done) => {
-      new User({ googleId: profile.id }).save();
+      // model functions return a Promise!
+      User.findOne({ googleId: profile.id }).then(existingUser => {
+        if (existingUser) {
+          // user record with this id already exists
+        } else {
+          new User({ googleId: profile.id }).save();
+        }
+      });
     }
   )
 );
