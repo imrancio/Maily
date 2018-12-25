@@ -12,4 +12,17 @@ module.exports = app => {
 
   // google redirects back to callback route
   app.get("/auth/google/callback", passport.authenticate("google"));
+
+  // logout route handler
+  app.get("/api/logout", (req, res) => {
+    // automatically added to request by passport
+    req.logout();
+    res.send(req.user);
+  });
+
+  // route handler for current user
+  app.get("/api/current_user", (req, res) => {
+    // req.user added to request by passport after deserialize to User model
+    res.send(req.user);
+  });
 };
