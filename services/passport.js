@@ -26,7 +26,9 @@ passport.use(
       // console.google.developers.com
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback"
+      callbackURL: "/auth/google/callback",
+      // needed for https traffic through heroku proxy
+      proxy: true
     },
     // callback called when google returns user back to oauth flow
     (accessToken, refreshToken, profile, done) => {
