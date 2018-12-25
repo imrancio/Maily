@@ -1,6 +1,11 @@
 const express = require("express");
-// just config - doesn't export anything
+const mongoose = require("mongoose");
+const keys = require("./config/keys");
+// just config - doesn't export anything; need to consider order
+require("./models/User");
 require("./services/passport");
+
+mongoose.connect(keys.mongoURI);
 
 const app = express();
 
