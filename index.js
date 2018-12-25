@@ -12,6 +12,9 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+// middlewares do some pre-processing on the request / modify them
+// before passing off to route handlers
+
 // cookie-session encrypts / decrypts cookies
 app.use(
   cookieSession({
