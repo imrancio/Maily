@@ -14,10 +14,9 @@ passport.serializeUser((user, done) => {
 });
 
 // turns user id (cookie) back into user model
-passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
+  done(null, user);
 });
 
 passport.use(
@@ -31,18 +30,16 @@ passport.use(
       proxy: true
     },
     // callback called when google returns user back to oauth flow
-    (accessToken, refreshToken, profile, done) => {
+    async (accessToken, refreshToken, profile, done) => {
       // model functions return a Promise!
-      User.findOne({ googleId: profile.id }).then(existingUser => {
-        if (existingUser) {
-          // user record with this id already exists
-          done(null, existingUser);
-        } else {
-          new User({ googleId: profile.id })
-            .save()
-            .then(user => done(null, user));
-        }
-      });
+      const existingUser = await User.findOne({ googleId: profile.id });
+      // user record with this id already exists
+      if (existingUser) {
+        return done(null, existingUser);
+      }
+      // save new user record
+      const user = await new User({ googleId: profile.id }).save();
+      done(null, user);
     }
   )
 );
