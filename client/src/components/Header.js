@@ -5,18 +5,12 @@ class Header extends Component {
     return (
       <nav>
         <div className="nav-wrapper">
-          <img
-            src="favicon.png"
-            alt="logo"
-            style={{ padding: "10px 5px", width: "4%" }}
-            className="left"
-          />
-          <a href="#" className="brand-logo">
+          <a href="/" className="left brand-logo">
             Maily
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             <li>
-              <a href="sass.html">Login with Google</a>
+              <a href="/auth/google">Login with Google</a>
             </li>
           </ul>
         </div>
