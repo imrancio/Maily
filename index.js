@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const keys = require("./config/keys");
 // doesn't export anything; need to consider order
 require("./models/User");
+require("./models/Survey");
 require("./services/passport");
 
 // connect to MongoDB instance
