@@ -42,6 +42,7 @@ class Header extends Component {
             >
               mail_outline
             </i>
+            Maily
           </Link>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
             {this.renderContent()}
