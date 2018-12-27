@@ -45,7 +45,20 @@ class SurveyForm extends Component {
   }
 }
 
+function validate(values) {
+  // object keys corresponds to field names
+  const errors = {};
+
+  if (!values.title) {
+    errors.title = "You must provide a title";
+  }
+
+  // errors will be added to Field component as prop
+  return errors;
+}
+
 // Provides handleSubmit prop to handle form submit
 export default reduxForm({
+  validate,
   form: "surveyForm"
 })(SurveyForm);
