@@ -4,6 +4,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
 const keys = require("./config/keys");
+const path = require("path");
 // doesn't export anything; need to consider order
 require("./models/User");
 require("./models/Survey");
@@ -19,6 +20,9 @@ const app = express();
 
 // middlewares do some pre-processing on the request / modify them
 // before passing off to route handlers
+
+// serve client public assets
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 // parses json payloads from POST/PUT/PATCH requests
 // and adds it to the request.body of incoming request

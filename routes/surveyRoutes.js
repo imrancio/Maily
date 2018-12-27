@@ -11,6 +11,15 @@ const thankyouTemplate = require("../services/thankyouTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
+  app.delete("/api/surveys/:id", requireLogin, async (req, res) => {
+    await Survey.deleteOne({ _id: req.params.id });
+    const surveys = await Survey.find({ _user: req.user.id })
+      .select({ recipients: false })
+      .sort({ dateSent: -1, lastResponded: -1 });
+
+    res.send(surveys);
+  });
+
   app.get("/api/surveys", requireLogin, async (req, res) => {
     // find user surveys
     const surveys = await Survey.find({ _user: req.user.id })
@@ -77,8 +86,11 @@ module.exports = app => {
       title,
       subject,
       body,
-      // comma-sep emails -> array of recipient objects
-      recipients: recipients.split(",").map(email => ({ email: email.trim() })),
+      // comma-sep emails -> array of (non-empty) recipient objects
+      recipients: recipients
+        .split(",")
+        .filter(Boolean)
+        .map(email => ({ email: email.trim() })),
       _user: req.user.id,
       dateSent: Date.now()
     });
