@@ -4,7 +4,10 @@ import { fetchSurveys } from "../../actions";
 
 class SurveyList extends Component {
   componentDidMount() {
+    // fetch list of surveys for user
     this.props.fetchSurveys();
+    // refresh list every 30s (sendGrid API replies periodically)
+    setInterval(this.props.fetchSurveys, 30 * 1000);
   }
 
   renderLastUpdated(lastResponded) {
@@ -21,7 +24,7 @@ class SurveyList extends Component {
   }
 
   renderSurveys() {
-    return this.props.surveys.reverse().map(survey => {
+    return this.props.surveys.map(survey => {
       return (
         <div className="card blue-grey darken-1" key={survey._id}>
           <div className="card-content white-text">

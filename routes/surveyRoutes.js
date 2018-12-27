@@ -12,10 +12,12 @@ const Survey = mongoose.model("surveys");
 module.exports = app => {
   app.get("/api/surveys", requireLogin, async (req, res) => {
     // find user surveys
-    const surveys = await Survey.find({ _user: req.user.id }).select({
-      // excluding the recipients list field
-      recipients: false
-    });
+    const surveys = await Survey.find({ _user: req.user.id })
+      .select({
+        // excluding the recipients list field
+        recipients: false
+      })
+      .sort({ dateSent: -1, lastResponded: -1 });
 
     res.send(surveys);
   });
