@@ -7,6 +7,19 @@ class SurveyList extends Component {
     this.props.fetchSurveys();
   }
 
+  renderLastUpdated(lastResponded) {
+    if (lastResponded) {
+      return (
+        <div>
+          <br />
+          <p className="right">
+            Last Response: {new Date(lastResponded).toLocaleDateString()}
+          </p>
+        </div>
+      );
+    }
+  }
+
   renderSurveys() {
     return this.props.surveys.reverse().map(survey => {
       return (
@@ -16,9 +29,8 @@ class SurveyList extends Component {
             <p>{survey.body}</p>
             <p className="right">
               Sent On: {new Date(survey.dateSent).toLocaleDateString()}
-              Last Updated:{" "}
-              {new Date(survey.lastResponded).toLocaleDateString()}
             </p>
+            {this.renderLastUpdated(survey.lastResponded)}
           </div>
           <div className="card-action">
             <a>Yes: {survey.yes}</a>
