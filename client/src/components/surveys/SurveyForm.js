@@ -41,10 +41,10 @@ class SurveyForm extends Component {
 }
 
 function validate(values) {
-  // object keys corresponds to field names
+  // object keys correspond to Field names
   const errors = {};
 
-  errors.emails = validateEmails(values.emails || "");
+  errors.recipients = validateEmails(values.recipients || "");
 
   // check if FIELD names exist in values (non-empty input)
   _.each(formFields, ({ name }) => {
