@@ -2,8 +2,9 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import SurveyField from "./SurveyField";
 import { Link } from "react-router-dom";
+import SurveyField from "./SurveyField";
+import validateEmails from "../../utils/validateEmails";
 
 const FIELDS = [
   { name: "title", label: "Survey Title" },
@@ -49,9 +50,14 @@ function validate(values) {
   // object keys corresponds to field names
   const errors = {};
 
-  if (!values.title) {
-    errors.title = "You must provide a title";
-  }
+  errors.emails = validateEmails(values.emails || "");
+
+  // check if FIELD names exist in values (non-empty input)
+  _.each(FIELDS, ({ name }) => {
+    if (!values[name]) {
+      errors[name] = "You must provide a value";
+    }
+  });
 
   // errors will be added to Field component as prop
   return errors;
