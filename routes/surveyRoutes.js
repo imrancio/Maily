@@ -6,6 +6,7 @@ const requireLogin = require("../middlewares/requireLogin");
 const requireCredits = require("../middlewares/requireCredits");
 const Mailer = require("../services/Mailer");
 const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
+const thankyouTemplate = require("../services/thankyouTemplate");
 
 const Survey = mongoose.model("surveys");
 
@@ -17,13 +18,14 @@ module.exports = app => {
         // excluding the recipients list field
         recipients: false
       })
+      // sort by newest surveys
       .sort({ dateSent: -1, lastResponded: -1 });
 
     res.send(surveys);
   });
 
   app.get("/api/surveys/:surveyId/:choice", (req, res) => {
-    res.send("Thanks for your response!");
+    res.send(thankyouTemplate());
   });
 
   app.post("/api/surveys/webhooks", (req, res) => {
