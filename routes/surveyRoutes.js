@@ -15,23 +15,43 @@ module.exports = app => {
   });
 
   app.post("/api/surveys/webhooks", (req, res) => {
-    const p = new Path("/api/surveys/:surveyId/:choice");
+    // email redirects back to this API endpoint
+    const p = Path.createPath("/api/surveys/:surveyId/:choice");
     // sendgrid returns list of event objects periodically
-    const events = _.chain(req.body)
+    _.chain(req.body)
       .map(({ email, url }) => {
+        // match both surveyId and choice in clicked URL
         const match = p.test(new URL(url).pathname);
-        // found both surveyId and choice in clicked URL
         if (match) {
           return { email, surveyId: match.surveyId, choice: match.choice };
         }
       })
-      // get rid of falsey events
+      // get rid of unmatched (falsy) events
       .compact()
-      // unique email and surveyId pairs
+      // unique email and surveyId pairs - remove multi-click events
       .uniqBy("email", "surveyId")
+      // each unique click event
+      .each(({ surveyId, email, choice }) => {
+        // update one record
+        Survey.updateOne(
+          {
+            // find survey with surveyId
+            _id: surveyId,
+            recipients: {
+              // match recipient subdocument with email / not responded
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            // increment survey choice (yes|no) count by one
+            $inc: { [choice]: 1 },
+            // set recipients elemMatch subdocument responded as true
+            $set: { "recipients.$.responded": true }
+          }
+        ).exec();
+      })
       .value();
-
-    console.log(events);
+    // send sendgrid empty response
     res.send({});
   });
   app.post("/api/surveys", requireLogin, requireCredits, async (req, res) => {
