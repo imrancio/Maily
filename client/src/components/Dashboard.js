@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import SurveyList from "./surveys/SurveyList";
 
 const Dashboard = ({ auth }) => {
-  console.log(auth);
   switch (auth) {
     case null:
       return <div />;
