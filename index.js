@@ -10,7 +10,10 @@ require("./models/Survey");
 require("./services/passport");
 
 // connect to MongoDB instance
-mongoose.connect(keys.mongoURI);
+mongoose.connect(
+  keys.mongoURI,
+  { useNewUrlParser: true }
+);
 
 const app = express();
 
