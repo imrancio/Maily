@@ -10,7 +10,7 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = app => {
-  app.get("/api/surveys/thanks", (req, res) => {
+  app.get("/api/surveys/:surveyId/:choice", (req, res) => {
     res.send("Thanks for your response!");
   });
 
@@ -20,10 +20,12 @@ module.exports = app => {
     // sendgrid returns list of event objects periodically
     _.chain(req.body)
       .map(({ email, url }) => {
-        // match both surveyId and choice in clicked URL
-        const match = p.test(new URL(url).pathname);
-        if (match) {
-          return { email, surveyId: match.surveyId, choice: match.choice };
+        if (url) {
+          // match both surveyId and choice in clicked URL
+          const match = p.test(new URL(url).pathname);
+          if (match) {
+            return { email, surveyId: match.surveyId, choice: match.choice };
+          }
         }
       })
       // get rid of unmatched (falsy) events
@@ -46,7 +48,8 @@ module.exports = app => {
             // increment survey choice (yes|no) count by one
             $inc: { [choice]: 1 },
             // set recipients elemMatch subdocument responded as true
-            $set: { "recipients.$.responded": true }
+            $set: { "recipients.$.responded": true },
+            lastResponded: new Date()
           }
         ).exec();
       })
