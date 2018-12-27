@@ -15,20 +15,23 @@ module.exports = app => {
   });
 
   app.post("/api/surveys/webhooks", (req, res) => {
+    const p = new Path("/api/surveys/:surveyId/:choice");
     // sendgrid returns list of event objects periodically
-    const events = _.map(req.body, ({ email, url }) => {
-      const pathname = new URL(url).pathname;
-      const p = new Path("/api/surveys/:surveyId/:choice");
-      const match = p.test(pathname);
-      // found both surveyId and choice in clicked URL
-      if (match) {
-        return { email, surveyId: match.surveyId, choice: match.choice };
-      }
-    });
-    const compactEvents = _.compact(events);
-    const uniqueEvents = _.uniqBy(compactEvents, "email", "surveyId");
+    const events = _.chain(req.body)
+      .map(({ email, url }) => {
+        const match = p.test(new URL(url).pathname);
+        // found both surveyId and choice in clicked URL
+        if (match) {
+          return { email, surveyId: match.surveyId, choice: match.choice };
+        }
+      })
+      // get rid of falsey events
+      .compact()
+      // unique email and surveyId pairs
+      .uniqBy("email", "surveyId")
+      .value();
 
-    console.log(uniqueEvents);
+    console.log(events);
     res.send({});
   });
   app.post("/api/surveys", requireLogin, requireCredits, async (req, res) => {
