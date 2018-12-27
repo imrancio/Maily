@@ -3,7 +3,7 @@ import React from "react";
 const Landing = () => {
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>Maily!</h1>
+      <h2>Welcome to Maily!</h2>
       Collect feedback from your users
     </div>
   );
