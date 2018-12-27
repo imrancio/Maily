@@ -16,7 +16,7 @@ module.exports = app => {
       const user = await req.user.save();
       res.send(user);
     } else {
-      res.send({ error: "Payment failed!" });
+      res.send({ error: charge.outcome.seller_message });
     }
   });
 };

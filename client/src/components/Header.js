@@ -53,7 +53,7 @@ class Header extends Component {
               </i>
               Maily
             </Link>
-            <a href="#" data-target="mobile" className="sidenav-trigger">
+            <a href="/" data-target="mobile" className="sidenav-trigger">
               <i className="material-icons">menu</i>
             </a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
