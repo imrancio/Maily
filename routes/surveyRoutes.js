@@ -20,5 +20,6 @@ module.exports = app => {
     });
     // send email using sendGrid API
     const mailer = new Mailer(survey, surveyTemplate(survey));
+    mailer.send();
   });
 };
