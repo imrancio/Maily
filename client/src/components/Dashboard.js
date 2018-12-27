@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import SurveyList from "./surveys/SurveyList";
+import Landing from "./Landing";
 
 const Dashboard = ({ auth }) => {
   switch (auth) {
@@ -9,11 +10,7 @@ const Dashboard = ({ auth }) => {
       return <div />;
 
     case false:
-      return (
-        <div style={{ textAlign: "center" }}>
-          <h3>Login to Add Surveys</h3>
-        </div>
-      );
+      return <Landing />;
 
     default:
       return (
