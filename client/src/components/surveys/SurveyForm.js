@@ -9,7 +9,7 @@ import formFields from "./formFields";
 
 class SurveyForm extends Component {
   renderFields() {
-    return _.map(formFields, ({ name, label }) => {
+    return _.map(formFields, ({ name, label, placeholder }) => {
       return (
         <Field
           key={name}
@@ -17,6 +17,7 @@ class SurveyForm extends Component {
           type="text"
           name={name}
           label={label}
+          placeholder={placeholder}
         />
       );
     });

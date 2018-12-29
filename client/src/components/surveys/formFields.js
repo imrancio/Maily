@@ -1,6 +1,18 @@
 export default [
-  { name: "title", label: "Survey Title" },
-  { name: "subject", label: "Subject Line" },
-  { name: "body", label: "Email Body" },
-  { name: "recipients", label: "Recipient List" }
+  {
+    name: "title",
+    label: "Survey Title",
+    placeholder: "Descriptive title for your email survey"
+  },
+  {
+    name: "subject",
+    label: "Subject Line",
+    placeholder: "Subject of your email"
+  },
+  { name: "body", label: "Email Body", placeholder: "Body of your email" },
+  {
+    name: "recipients",
+    label: "Recipient List",
+    placeholder: "Comma-separated list of recipient email addresses"
+  }
 ];
