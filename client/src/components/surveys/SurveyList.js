@@ -6,8 +6,9 @@ class SurveyList extends Component {
   componentDidMount() {
     // fetch list of surveys for user
     this.props.fetchSurveys();
-    // refresh list every 30s (sendGrid API replies periodically)
-    setInterval(this.props.fetchSurveys, 30 * 1000);
+    // refresh list every 15s (sendGrid API replies periodically)
+    // TODO: consider switch to push vs pull for live update; huge refactor
+    setInterval(this.props.fetchSurveys, 15 * 1000);
   }
 
   renderLastUpdated(lastResponded) {
@@ -24,8 +25,11 @@ class SurveyList extends Component {
   }
 
   renderSurveys() {
+    // null until surveys fetched
     if (this.props.surveys) {
+      // check empty surveys list
       if (this.props.surveys.length === 0) {
+        // placeholder card
         return (
           <div className="card blue-grey darken-1">
             <div className="card-content white-text">
@@ -36,6 +40,7 @@ class SurveyList extends Component {
           </div>
         );
       }
+      // survey list cards
       return this.props.surveys.map(survey => {
         return (
           <div className="card blue-grey darken-1" key={survey._id}>

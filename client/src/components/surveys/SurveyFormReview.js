@@ -7,14 +7,22 @@ import formFields from "./formFields";
 import * as actions from "../../actions";
 
 class SurveyFormReview extends Component {
+  // Ensure submitSurvey only called once
+  submitOnce() {
+    if (!this.sendButtonClicked) {
+      this.props.submitSurvey(this.props.formValues, this.props.history);
+      this.sendButtonClicked = true;
+    }
+  }
   // Submit form with enter keypress
   _handleKeyPress = event => {
     if (event.key === "Enter") {
-      this.props.submitSurvey(this.props.formValues, this.props.history);
+      this.submitOnce();
     }
   };
   componentDidMount() {
     document.addEventListener("keydown", this._handleKeyPress, false);
+    this.sendButtonClicked = false;
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this._handleKeyPress, false);
@@ -46,9 +54,7 @@ class SurveyFormReview extends Component {
         </button>
         <button
           className="waves-effect waves-light green white-text btn-flat right"
-          onClick={() =>
-            this.props.submitSurvey(this.props.formValues, this.props.history)
-          }
+          onClick={() => this.submitOnce()}
         >
           Send Survey
           <i className="material-icons right">email</i>
