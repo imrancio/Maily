@@ -13,13 +13,11 @@ module.exports = survey => {
     survey.id
   }/yes">Yes</a>
           </div>
+          <p />
           <div>
             <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>
           </div>
         </div>
-        <img src="${keys.redirectDomain}/api/surveys/${
-    survey.id
-  }/tracker.png" alt="tracker" style="display: block;"/>
       </body>
     </html>
   `;

@@ -8,6 +8,7 @@ const surveySchema = new Schema({
   subject: String,
   // one-many relation to Recipient Model
   recipients: [RecipientSchema],
+  from: String,
   yes: { type: Number, default: 0 },
   no: { type: Number, default: 0 },
   // map one-one relation to User model

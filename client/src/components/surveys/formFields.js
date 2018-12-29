@@ -14,5 +14,10 @@ export default [
     name: "recipients",
     label: "Recipient List",
     placeholder: "Comma-separated list of recipient email addresses"
+  },
+  {
+    name: "from",
+    label: "From Email (Optional)",
+    placeholder: "Survey will appear to have been sent from this email address"
   }
 ];

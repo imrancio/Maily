@@ -49,10 +49,11 @@ function validate(values) {
   const errors = {};
 
   errors.recipients = validateEmails(values.recipients || "");
+  errors.from = validateEmails(values.from || "");
 
   // check if FIELD names exist in values (non-empty input)
   _.each(formFields, ({ name }) => {
-    if (!values[name]) {
+    if (name !== "from" && !values[name]) {
       errors[name] = "You must provide a value";
     }
   });
