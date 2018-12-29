@@ -11,6 +11,7 @@ class SurveyList extends Component {
     setInterval(this.props.fetchSurveys, 15 * 1000);
   }
 
+  // conditionally render last response date
   renderLastUpdated(lastResponded) {
     if (lastResponded) {
       return (
@@ -24,6 +25,7 @@ class SurveyList extends Component {
     }
   }
 
+  // render survey list or placeholder card
   renderSurveys() {
     // null until surveys fetched
     if (this.props.surveys) {

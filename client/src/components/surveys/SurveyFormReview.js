@@ -10,8 +10,13 @@ class SurveyFormReview extends Component {
   // Ensure submitSurvey only called once
   submitOnce() {
     if (!this.sendButtonClicked) {
-      this.props.submitSurvey(this.props.formValues, this.props.history);
-      this.sendButtonClicked = true;
+      // credit check
+      if (this.props.credits < 1) {
+        this.error.style = { display: "block" };
+      } else {
+        this.props.submitSurvey(this.props.formValues, this.props.history);
+        this.sendButtonClicked = true;
+      }
     }
   }
   // Submit form with enter keypress
@@ -23,10 +28,12 @@ class SurveyFormReview extends Component {
   componentDidMount() {
     document.addEventListener("keydown", this._handleKeyPress, false);
     this.sendButtonClicked = false;
+    this.error = document.querySelector("#error");
   }
   componentWillUnmount() {
     document.removeEventListener("keydown", this._handleKeyPress, false);
   }
+  // render fields
   reviewFields() {
     return _.map(formFields, ({ name, label }) => {
       return (
@@ -38,6 +45,7 @@ class SurveyFormReview extends Component {
       );
     });
   }
+
   render() {
     return (
       <div>
@@ -59,13 +67,19 @@ class SurveyFormReview extends Component {
           Send Survey
           <i className="material-icons right">email</i>
         </button>
+        <div id="error" className="red-text center" style={{ display: "none" }}>
+          Not enough credits!
+        </div>
       </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return { formValues: state.form.surveyForm.values };
+  return {
+    formValues: state.form.surveyForm.values,
+    credits: state.auth.credits
+  };
 }
 
 export default connect(
