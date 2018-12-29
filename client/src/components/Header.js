@@ -41,10 +41,7 @@ class Header extends Component {
       <div>
         <nav>
           <div className="nav-wrapper light-blue darken-1">
-            <Link
-              to={this.props.auth ? "/surveys" : "/"}
-              className="brand-logo"
-            >
+            <Link to="/" className="brand-logo">
               <i
                 className="large material-icons"
                 style={{ fontSize: "4rem", margin: "0 6px" }}
