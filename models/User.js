@@ -3,6 +3,11 @@ const { Schema } = mongoose;
 
 const userSchema = new Schema({
   googleId: String,
+  firstName: String,
+  lastName: String,
+  imageURL: String,
+  emails: [String],
+  photos: [String],
   credits: { type: Number, default: 0 }
 });
 
