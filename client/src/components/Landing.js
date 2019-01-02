@@ -20,7 +20,6 @@ const renderDashboardButton = auth => {
 };
 
 const Landing = ({ auth }) => {
-  console.log(auth);
   return (
     <div style={{ textAlign: "center" }}>
       <h2>Welcome to Maily{auth ? ", " + auth.firstName : ""}!</h2>

@@ -3,12 +3,18 @@ import { connect } from "react-redux";
 import { fetchSurveys, deleteSurvey } from "../../actions";
 
 class SurveyList extends Component {
+  updateSurveyList = () => {
+    if (this.props.surveys && this.props.surveys.length > 0) {
+      this.props.fetchSurveys();
+    }
+  };
+
   componentDidMount() {
     // fetch list of surveys for user
     this.props.fetchSurveys();
     // refresh list every 15s (sendGrid API replies periodically)
     // TODO: consider switch to push vs pull for live update; huge refactor
-    setInterval(this.props.fetchSurveys, 15 * 1000);
+    setInterval(this.updateSurveyList, 15 * 1000);
   }
 
   // conditionally render last response date
